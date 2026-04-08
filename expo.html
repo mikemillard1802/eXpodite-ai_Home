@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Expo™ | eXpodite-ai Exponential Growth Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cyan: #00e5ff;
+    --cyan-dim: #00bcd4;
+    --blue-deep: #0a0e1a;
+    --blue-mid: #0d1528;
+    --blue-card: #141c2e;
+    --border: rgba(0,229,255,0.15);
+    --border-hover: rgba(0,229,255,0.4);
+    --text-primary: #f0f4ff;
+    --text-secondary: #8ba3c7;
+    --accent-orange: #ff6b35;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--blue-deep);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 4rem;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--cyan);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--text-primary); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--cyan); }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--cyan) !important; color: var(--blue-deep) !important; }
+
+  /* PAGE HERO */
+  .page-hero {
+    position: relative;
+    z-index: 1;
+    padding: 9rem 4rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .page-hero::after {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 500px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(255,107,53,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+  .breadcrumb a { color: var(--cyan); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { opacity: 0.5; }
+  .page-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-orange);
+    margin-bottom: 1rem;
+  }
+  .page-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    margin-bottom: 1.25rem;
+  }
+  .page-hero h1 .bolt { color: var(--accent-orange); }
+  .page-hero p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* CONTENT */
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem;
+  }
+  .section-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 0.75rem;
+  }
+  .content h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+  }
+
+  /* ENGINE GRID */
+  .engine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 4rem;
+  }
+  .engine-card {
+    background: var(--blue-card);
+    padding: 2rem;
+    transition: background 0.3s;
+    position: relative;
+  }
+  .engine-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .engine-card.orange::before { background: linear-gradient(90deg, var(--accent-orange), transparent); }
+  .engine-card.cyan::before { background: linear-gradient(90deg, var(--cyan), transparent); }
+  .engine-card.green::before { background: linear-gradient(90deg, #00ff88, transparent); }
+  .engine-card:hover { background: #18243a; }
+  .engine-card:hover::before { opacity: 1; }
+  .engine-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+  .engine-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .engine-card ul li {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .engine-card ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--cyan);
+    font-size: 0.75rem;
+  }
+  .engine-card ul li strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* CAPABILITIES */
+  .cap-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 4rem;
+  }
+  .cap-item {
+    background: var(--blue-card);
+    padding: 2rem 2.5rem;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 2rem;
+    align-items: start;
+    transition: background 0.3s;
+  }
+  .cap-item:hover { background: #18243a; }
+  .cap-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: rgba(0,229,255,0.15);
+    line-height: 1;
+    padding-top: 4px;
+  }
+  .cap-body h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+  .cap-body > p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  .cap-body ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .cap-body ul li {
+    font-size: 0.86rem;
+    color: var(--text-secondary);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .cap-body ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--cyan);
+    font-size: 0.7rem;
+    top: 2px;
+  }
+  .highlight-stat {
+    display: inline-block;
+    background: rgba(0,229,255,0.08);
+    border: 0.5px solid var(--border-hover);
+    border-radius: 4px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
+    color: var(--cyan);
+    font-weight: 500;
+    margin-left: 0.5rem;
+  }
+
+  /* CTA */
+  .page-cta {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 4rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .page-cta h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .page-cta p { color: var(--text-secondary); margin-bottom: 2rem; }
+  .btn-primary {
+    background: var(--cyan);
+    color: var(--blue-deep);
+    border: none;
+    padding: 0.85rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.85rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+    margin-left: 1rem;
+  }
+  .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 4rem;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5,7,13,0.8);
+  }
+  footer .foot-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--cyan);
+  }
+  footer p { font-size: 0.82rem; color: var(--text-secondary); }
+  .foot-links { display: flex; gap: 2rem; list-style: none; }
+  .foot-links a { font-size: 0.82rem; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+  .foot-links a:hover { color: var(--cyan); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .page-hero { padding: 7rem 1.5rem 3rem; }
+    .content { padding: 3rem 1.5rem; }
+    .cap-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .cap-num { font-size: 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    .page-cta { padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">eX<span>podite</span>-ai</a>
+  <ul>
+    <li><a href="index.html#platforms">Platforms</a></li>
+    <li><a href="index.html#labs">Labs</a></li>
+    <li><a href="index.html#challenge">Why Now</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>/</span>
+    <a href="index.html#platforms">Platforms</a>
+    <span>/</span>
+    Expo™
+  </div>
+  <div class="page-eyebrow">⚡ Platform</div>
+  <h1><span class="bolt">Expo™</span><br>Exponential Growth Engine</h1>
+  <p>High-velocity AI execution powered by NVIDIA cloud models, parallel agent orchestration, and self-optimizing workflows.</p>
+</div>
+
+<div class="content">
+  <p class="section-eyebrow">Powered By</p>
+  <h2>What Drives the Engine</h2>
+
+  <div class="engine-grid">
+    <div class="engine-card orange">
+      <h3>NVIDIA Cloud Models</h3>
+      <ul>
+        <li><strong>Nemotron 340B</strong> for complex reasoning</li>
+        <li><strong>Llama 3.1</strong> for general tasks</li>
+        <li><strong>Custom fine-tuned models</strong> for domain expertise</li>
+      </ul>
+    </div>
+    <div class="engine-card cyan">
+      <h3>Speed &amp; Scale</h3>
+      <ul>
+        <li>Sub-second agent response times</li>
+        <li>Parallel execution across multiple agents</li>
+        <li>Auto-scaling to handle <strong>10,000+ concurrent operations</strong></li>
+      </ul>
+    </div>
+    <div class="engine-card green">
+      <h3>Claw Orchestrator Technology</h3>
+      <ul>
+        <li>Algorithmic structuralism for optimal agent design</li>
+        <li>Self-optimizing workflows that learn from each execution</li>
+        <li>Human-in-the-loop controls for critical decisions</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="section-eyebrow">Core Capabilities</p>
+  <h2>What You Can Build</h2>
+
+  <div class="cap-grid">
+    <div class="cap-item">
+      <div class="cap-num">01</div>
+      <div class="cap-body">
+        <h3>Claw Orchestrator System</h3>
+        <p>Our flagship product — the Claw Orchestrator — is a Chief Swarm Architect that designs and deploys optimal multi-agent architectures.</p>
+        <ul>
+          <li>Analyzes complex business challenges</li>
+          <li>Designs optimal multi-agent architectures</li>
+          <li>Deploys specialized AI swarms with clear, non-overlapping mandates</li>
+          <li>Monitors and adjusts execution in real-time</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cap-item">
+      <div class="cap-num">02</div>
+      <div class="cap-body">
+        <h3>Autonomous AI Swarms</h3>
+        <p>Self-organizing agent teams that operate with minimal human intervention and deliver measurable outcomes. <span class="highlight-stat">80% reduction in manual work</span></p>
+        <ul>
+          <li>Operate with minimal human intervention</li>
+          <li>Collaborate through structured workflows — sequential, parallel, hierarchical</li>
+          <li>Adapt to changing conditions and requirements</li>
+          <li>Deliver measurable, auditable outcomes</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cap-item">
+      <div class="cap-num">03</div>
+      <div class="cap-body">
+        <h3>Security-First Deployment</h3>
+        <p>Every deployment includes the full NemoClaw security framework — governance built in from day one, not bolted on after.</p>
+        <ul>
+          <li>NemoClaw security framework on every deployment</li>
+          <li>Comprehensive audit trails</li>
+          <li>Role-based access control</li>
+          <li>Real-time monitoring and alerting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-cta">
+  <h2>Ready to Deploy at Scale?</h2>
+  <p>See the Expo™ engine in action with a live demo.</p>
+  <a href="contact.html" class="btn-primary">Request a Demo</a>
+  <a href="index.html" class="btn-secondary">Back to Home</a>
+</div>
+
+<footer>
+  <div class="foot-logo">eXpodite-ai</div>
+  <p>© 2026 eXpodite-ai. All rights reserved.</p>
+  <ul class="foot-links">
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="https://github.com/mikemillard1802">GitHub</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>

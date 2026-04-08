@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NemoClaw™ | eXpodite-ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cyan: #00e5ff;
+    --cyan-dim: #00bcd4;
+    --blue-deep: #0a0e1a;
+    --blue-mid: #0d1528;
+    --blue-card: #141c2e;
+    --border: rgba(0,229,255,0.15);
+    --border-hover: rgba(0,229,255,0.4);
+    --text-primary: #f0f4ff;
+    --text-secondary: #8ba3c7;
+    --nvidia-green: #76b900;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--blue-deep);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 4rem;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--cyan);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--text-primary); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--cyan); }
+  .nav-cta {
+    border: 1px solid var(--cyan);
+    color: var(--cyan) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--cyan) !important; color: var(--blue-deep) !important; }
+
+  /* PAGE HERO */
+  .page-hero {
+    position: relative;
+    z-index: 1;
+    padding: 9rem 4rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .page-hero::after {
+    content: '';
+    position: absolute;
+    top: 30%;
+    right: 0;
+    width: 500px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(118,185,0,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+  .breadcrumb a { color: var(--cyan); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { opacity: 0.5; }
+
+  .nvidia-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(118,185,0,0.08);
+    border: 0.5px solid rgba(118,185,0,0.3);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nvidia-green);
+    margin-bottom: 1.25rem;
+  }
+  .nvidia-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--nvidia-green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .page-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    margin-bottom: 1.25rem;
+  }
+  .page-hero h1 .hl { color: var(--cyan); }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 650px;
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  /* EXTERNAL LINK BANNER */
+  .ext-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(0,229,255,0.06);
+    border: 0.5px solid var(--border-hover);
+    border-radius: 6px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .ext-banner:hover { background: rgba(0,229,255,0.12); border-color: var(--cyan); }
+  .ext-banner .ext-label { color: var(--cyan); font-weight: 500; }
+  .ext-banner .ext-arrow { color: var(--cyan); font-size: 1rem; transition: transform 0.2s; }
+  .ext-banner:hover .ext-arrow { transform: translateX(4px); }
+
+  /* WHAT IS SECTION */
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 0.75rem;
+  }
+  .content h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .content .lead {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 720px;
+    line-height: 1.75;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  /* FOUR PILLARS */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 4rem;
+  }
+
+  .pillar {
+    background: var(--blue-card);
+    padding: 2rem 2.25rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pillar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .pillar:hover { background: #18243a; }
+  .pillar:hover::before { opacity: 1; }
+
+  .pillar-icon {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border-hover);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+    background: rgba(0,229,255,0.05);
+  }
+  .pillar h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--text-primary);
+  }
+  .pillar p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  /* FULL PAGE CTA */
+  .full-page-cta {
+    position: relative;
+    z-index: 1;
+    background: var(--blue-mid);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    padding: 3.5rem 4rem;
+    text-align: center;
+  }
+  .full-page-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 200px;
+    background: radial-gradient(ellipse, rgba(0,188,212,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .full-page-cta h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    position: relative;
+    z-index: 1;
+  }
+  .full-page-cta p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 1.75rem;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .btn-primary {
+    background: var(--cyan);
+    color: var(--blue-deep);
+    border: none;
+    padding: 0.85rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.85rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 4rem;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5,7,13,0.8);
+  }
+  footer .foot-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--cyan); }
+  footer p { font-size: 0.82rem; color: var(--text-secondary); }
+  .foot-links { display: flex; gap: 2rem; list-style: none; }
+  .foot-links a { font-size: 0.82rem; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+  .foot-links a:hover { color: var(--cyan); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .page-hero { padding: 7rem 1.5rem 3rem; }
+    .content { padding: 3rem 1.5rem; }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .full-page-cta { padding: 3rem 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">eX<span>podite</span>-ai</a>
+  <ul>
+    <li><a href="index.html#platforms">Platforms</a></li>
+    <li><a href="index.html#labs">Labs</a></li>
+    <li><a href="index.html#challenge">Why Now</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>/</span>
+    <a href="index.html#platforms">Platforms</a>
+    <span>/</span>
+    NemoClaw™
+  </div>
+
+  <div class="nvidia-badge">NVIDIA Open-Source Platform</div>
+  <h1>NemoClaw™<br><span class="hl">Enterprise AI Agents,<br>Redefined</span></h1>
+  <p class="hero-desc">
+    NVIDIA's upcoming open-source AI agent platform engineered for enterprise-grade security, privacy protection, and scalable task automation — deeply integrated with the NVIDIA NeMo framework, Nemotron model series, and NIM inference microservices. Hardware-agnostic by design.
+  </p>
+
+  <a href="https://nemoclaw.bot/" target="_blank" rel="noopener" class="ext-banner">
+    <span>View the full NemoClaw platform site</span>
+    <span class="ext-label">nemoclaw.bot</span>
+    <span class="ext-arrow">→</span>
+  </a>
+</div>
+
+<!-- KEY FEATURES -->
+<div class="content">
+  <p class="section-eyebrow">Core Capabilities</p>
+  <h2>NemoClaw Key Features</h2>
+  <p class="lead">
+    Four foundational pillars define the NemoClaw platform, each designed to address specific enterprise requirements that existing AI agent solutions have failed to meet.
+  </p>
+
+  <div class="pillars-grid">
+    <div class="pillar">
+      <div class="pillar-icon">🔒</div>
+      <h3>Enterprise-Grade Security &amp; Privacy</h3>
+      <p>Multi-layer security safeguards and privacy control tools built directly into the platform core. Enforce strict data governance policies while deploying AI agents at scale — addressing the unpredictable behavior and privacy leakage risks of consumer agents.</p>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-icon">⬡</div>
+      <h3>Open-Source &amp; Deep Customization</h3>
+      <p>Full access to the platform codebase enables deep customization of AI agent behavior, workflows, and integrations. No lock-in to proprietary commercial APIs — tailor agents to domain-specific needs from financial compliance to healthcare data processing.</p>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-icon">⚡</div>
+      <h3>Task Automation &amp; Agent Distribution</h3>
+      <p>Deploy and distribute AI agents across your workforce to automate routine tasks including email processing, calendar scheduling, data analysis, report generation, and cross-system orchestration — driving measurable productivity gains across departments.</p>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-icon">◈</div>
+      <h3>NVIDIA Ecosystem Integration</h3>
+      <p>Deep integration with the NVIDIA NeMo framework and NIM (NVIDIA Inference Microservices), providing native GPU-accelerated inference, optimized model serving, and seamless access to NVIDIA's comprehensive AI software stack.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FULL SITE CTA -->
+<div class="full-page-cta">
+  <h2>Want the Full NemoClaw Story?</h2>
+  <p>Explore the complete platform — roadmap, comparisons, ecosystem, FAQ, and enterprise partnerships.</p>
+  <div class="cta-buttons">
+    <a href="https://nemoclaw.bot/" target="_blank" rel="noopener" class="btn-primary">Visit nemoclaw.bot ↗</a>
+    <a href="contact.html" class="btn-ghost">Talk to eXpodite-ai</a>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-logo">eXpodite-ai</div>
+  <p>© 2026 eXpodite-ai. All rights reserved.</p>
+  <ul class="foot-links">
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="https://github.com/mikemillard1802">GitHub</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>
